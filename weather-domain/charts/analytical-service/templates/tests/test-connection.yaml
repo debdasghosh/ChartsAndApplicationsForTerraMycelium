@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "analytical-service-in-weather-domain-chart.fullname" . }}-test-connection"
+  labels:
+    {{- include "analytical-service-in-weather-domain-chart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "analytical-service-in-weather-domain-chart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
