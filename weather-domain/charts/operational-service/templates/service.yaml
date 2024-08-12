@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "operational-service-in-weather-domain-chart.fullname" . }}
+  labels:
+    {{- include "operational-service-in-weather-domain-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "operational-service-in-weather-domain-chart.selectorLabels" . | nindent 4 }}
